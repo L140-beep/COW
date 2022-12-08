@@ -46,14 +46,16 @@ class Interpreter:
                     case 'moo':
                         self.cycles.append(start)
                         self.cycles.append(current_instruction)
-                        t_program[start] = "start"
-                        t_program[current_instruction] = "end"                        
+                        t_program[start] = "-1"
+                        t_program[current_instruction] = "-1"                        
                         break
 
                 current_instruction += 1           
                     
-        
-                                 
+        if 'moo' in t_program:
+           raise InterpreterException("Unexpected moo") 
+        if 'MOO' in t_program:
+              raise InterpreterException("Unexpected MOO")   
         
     def eval(self, command:str):
             match(command):
@@ -102,7 +104,6 @@ class Interpreter:
                     if self.buffer.get() == 0:
                         pos = self.cycles.index(self.current_instruction) + 1
                         self.current_instruction = self.cycles[pos] 
-                
                 case _:
-                    raise InterpreterException("SyntaxError")
+                    raise InterpreterException(f"SyntaxError in command {command}")
             
